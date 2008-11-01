@@ -100,7 +100,7 @@ module MultiCurrency
           "Can't find exchange rate for conversion from #{@currency} into #{currency} for year #{@year}"
       end
   
-      self.new(@base_value * rate, currency, year)
+      self.new(@base_value * rate, currency, @year)
     end
   end
 end
