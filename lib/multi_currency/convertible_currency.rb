@@ -22,19 +22,19 @@ module MultiCurrency
     # = General Calculations =
     # ========================
     def +(other)
-      Currency.new(@base_value + other.to_currency(@currency).base_value, @currency)
+      ConvertibleCurrency.new(@base_value + other.to_currency(@currency).base_value, @currency)
     end
   
     def -(other)
-      Currency.new(@base_value - other.to_currency(@currency).base_value, @currency)
+      ConvertibleCurrency.new(@base_value - other.to_currency(@currency).base_value, @currency)
     end
   
     def /(other)
-      Currency.new(@base_value / other.to_currency(@currency).base_value, @currency)
+      ConvertibleCurrency.new(@base_value / other.to_currency(@currency).base_value, @currency)
     end
   
     def *(other)
-      Currency.new(@base_value * other.to_currency(@currency).base_value, @currency)
+      ConvertibleCurrency.new(@base_value * other.to_currency(@currency).base_value, @currency)
     end
   
     def ==(other)
