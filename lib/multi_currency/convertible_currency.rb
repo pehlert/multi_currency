@@ -22,19 +22,19 @@ module MultiCurrency
     # = General Calculations =
     # ========================
     def +(other)
-      ConvertibleCurrency.new(@base_value + other.to_currency(@currency).base_value, @currency)
+      ConvertibleCurrency.new(@base_value + other.to_currency(@currency).base_value, @currency || other.currency)
     end
   
     def -(other)
-      ConvertibleCurrency.new(@base_value - other.to_currency(@currency).base_value, @currency)
+      ConvertibleCurrency.new(@base_value - other.to_currency(@currency).base_value, @currency || other.currency)
     end
   
     def /(other)
-      ConvertibleCurrency.new(@base_value / other.to_currency(@currency).base_value, @currency)
+      ConvertibleCurrency.new(@base_value / other.to_currency(@currency).base_value, @currency || other.currency)
     end
   
     def *(other)
-      ConvertibleCurrency.new(@base_value * other.to_currency(@currency).base_value, @currency)
+      ConvertibleCurrency.new(@base_value * other.to_currency(@currency).base_value, @currency || other.currency)
     end
   
     def ==(other)
@@ -81,7 +81,13 @@ module MultiCurrency
     def in(currency)
       # If no currency have been given at all or we don't need to convert just return the current object
       return self if currency.blank? || @currency == currency
-  
+      
+      # If this is an anonymous "0", we can simply set the currency
+      if (@base_value == 0) && !@currency
+        @currency = currency 
+        return self
+      end
+      
       # If we don't know the currency of the old value, we can't convert it
       raise ConversionOfAnonymousCurrency,
         "Can't convert anonymous currency into #{currency}" unless @currency
